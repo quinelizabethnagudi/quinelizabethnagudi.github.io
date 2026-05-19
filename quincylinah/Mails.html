@@ -58,7 +58,7 @@
             transition: 0.3s;
         }
 
-        nav.Menu a:hover {
+        nav.Menu a:hover, nav.Menu a.active {
             color: #8b5e3c;
         }
 
@@ -276,7 +276,7 @@
         <a href="index.html">Home</a>
         <a href="Education.html">Education</a>
         <a href="hobbies.html">Hobbies</a>
-        <a href="My Business.html">My Cafe Business</a>
+        <a href="Mails.html" class="active">My Cafe Business</a>
         <a href="contact.html">Contact</a>
     </nav>
 
@@ -408,7 +408,6 @@
             document.getElementById('checkoutForm').reset();
         }
 
-        // Close window when user clicks outside modal card area
         window.onclick = function(event) {
             if (event.target == modal) {
                 closeOrderModal();
