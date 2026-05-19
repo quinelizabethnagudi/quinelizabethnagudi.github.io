@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quincy & Mails Cafe</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f9f6f2;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Business Header banner */
+        header.hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+            url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1600&auto=format&fit=crop&q=80') center/cover no-repeat;
+            color: white;
+            text-align: center;
+            padding: 120px 20px;
+        }
+        
+        header.hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        header.hero p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        /* Sticky Navigation Bar matching your main site style */
+        nav.Menu {
+            background: #ffffff;
+            padding: 15px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        nav.Menu a {
+            text-decoration: none;
+            color: #5c3d2e;
+            font-weight: bold;
+            margin: 0 15px;
+            transition: 0.3s;
+        }
+
+        nav.Menu a:hover {
+            color: #8b5e3c;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: #8b5e3c;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #5c3d2e;
+            transform: translateY(-2px);
+        }
+
+        section {
+            padding: 80px 20px;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #5c3d2e;
+            font-size: 2.5rem;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: #8b5e3c;
+            margin: 10px auto 0;
+        }
+
+        /* Menu Display Grid */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .menu-item {
+            background-color: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .menu-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .menu-item h3 {
+            color: #5c3d2e;
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+        }
+
+        .menu-item p {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 15px;
+            height: 45px;
+            overflow: hidden;
+        }
+
+        .price {
+            font-weight: bold;
+            color: #8b5e3c;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        .order-btn {
+            background-color: #4CAF50;
+            width: 100%;
+        }
+        .order-btn:hover {
+            background-color: #388E3C;
+        }
+
+        /* Dynamic Media Gallery layout */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-grid img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .gallery-grid img:hover {
+            transform: scale(1.03);
+        }
+
+        /* Order Form Popup Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 35px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            position: relative;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .close-modal {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #aaa;
+        }
+
+        .close-modal:hover {
+            color: #333;
+        }
+
+        .modal h3 {
+            color: #5c3d2e;
+            margin-bottom: 20px;
+            font-size: 1.6rem;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        footer {
+            background: #5c3d2e;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 60px;
+        }
+
+        @media (max-width: 600px) {
+            header.hero h1 { font-size: 2.2rem; }
+            section { padding: 50px 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="hero">
+        <h1>Quincy & Mails Cafe</h1>
+        <p>Freshly brewed coffee & handmade pastries daily</p>
+        <a href="#menu" class="btn">View Menu</a>
+    </header>
+
+    <nav class="Menu">
+        <a href="index.html">Home</a>
+        <a href="Education.html">Education</a>
+        <a href="hobbies.html">Hobbies</a>
+        <a href="My Business.html">My Cafe Business</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+
+    <section id="about">
+        <h2>About Us</h2>
+        <p style="text-align: center; max-width: 750px; margin: auto; font-size: 1.1rem; color: #555;">
+            At Quincy & Mails, we believe coffee is more than just a morning caffeine boost—it's a deliberate experience. 
+            Sourced ethically from regional farms and roasted carefully in-house, every serving is uniquely crafted by hand to brighten your schedule. Come step inside, unwind, and stay a while.
+        </p>
+    </section>
+
+    <section id="menu">
+        <h2>Our Menu</h2>
+        <div class="menu-grid">
+            
+            <div class="menu-item">
+                <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?w=600&auto=format&fit=crop&q=80" alt="Classic Latte">
+                <h3>Classic Latte</h3>
+                <p>Smooth, rich espresso layered with silky steamed milk and signature foam art.</p>
+                <p class="price">15000ugx</p>
+                <button class="btn order-btn" onclick="openOrderModal('Classic Latte', '15000ugx')">Order Now</button>
+            </div>
+
+            <div class="menu-item">
+                <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600&auto=format&fit=crop&q=80" alt="Butter Croissant">
+                <h3>Butter Croissant</h3>
+                <p>Flaky, golden layers of pure buttery pastry, baked fresh in house every morning.</p>
+                <p class="price">5000ugx</p>
+                <button class="btn order-btn" onclick="openOrderModal('Butter Croissant', '500ugx')">Order Now</button>
+            </div>
+
+            <div class="menu-item">
+                <img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=600&auto=format&fit=crop&q=80" alt="Cold Brew">
+                <h3>Cold Brew</h3>
+                <p>Artisanal blend slow-steeped in cold water for 18 hours. Extra bold and naturally sweet.</p>
+                <p class="price">3000ugx</p>
+                <button class="btn order-btn" onclick="openOrderModal('Cold Brew', '3000ugx')">Order Now</button>
+            </div>
+
+            <div class="menu-item">
+                <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&auto=format&fit=crop&q=80" alt="Chocolate Fudge Cake">
+                <h3>Chocolate Fudge Cake</h3>
+                <p>Rich, moist layers of premium chocolate sponge glazed with gourmet dark ganache.</p>
+                <p class="price">20000ugx</p>
+                <button class="btn order-btn" onclick="openOrderModal('Chocolate Fudge Cake', '20000ugx')">Order Now</button>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="gallery">
+        <h2>Gallery</h2>
+        <div class="gallery-grid">
+            <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=600&auto=format&fit=crop&q=80" alt="Cafe Seating Interior">
+            <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&auto=format&fit=crop&q=80" alt="Espresso Bar Setup">
+            <img src="https://images.unsplash.com/photo-1511920170033-f839624c348?w=600&auto=format&fit=crop&q=80" alt="Pour Over Barista Station">
+            <img src="https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=600&auto=format&fit=crop&q=80" alt="Baking Fresh Pastries">
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>Visit Us</h2>
+        <p style="text-align: center; font-size: 1.1rem; color: #444;">
+            123 Mails Street, Downtown<br>
+            Open Mon - Sun: 7am - 8pm<br>
+            <strong>Phone:</strong> (+256) 776-028194<br>
+            <strong>Email:</strong> quincyeliz68@gmail.com
+        </p>
+    </section>
+
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeOrderModal()">&times;</span>
+            <h3>Place Your Order</h3>
+            <form id="checkoutForm" onsubmit="handleOrderSubmit(event)">
+                <div class="form-group">
+                    <label>Selected Item</label>
+                    <input type="text" id="modalItemName" readonly style="background: #eee; font-weight: bold;">
+                </div>
+                <div class="form-group">
+                    <label>Price Each</label>
+                    <input type="text" id="modalItemPrice" readonly style="background: #eee;">
+                </div>
+                <div class="form-group">
+                    <label for="quantity">Quantity</label>
+                    <input type="number" id="quantity" value="1" min="1" max="10" required>
+                </div>
+                <div class="form-group">
+                    <label for="customerName">Your Name</label>
+                    <input type="text" id="customerName" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label for="deliveryType">Order Type</label>
+                    <select id="deliveryType">
+                        <option value="Dine-In">Dine-In</option>
+                        <option value="Takeaway">Takeaway Pickup</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn" style="background-color: #4CAF50; width: 100%; margin-top: 10px;">Confirm Order</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Quincy & Mails Cafe. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const modal = document.getElementById('orderModal');
+        
+        function openOrderModal(itemName, itemPrice) {
+            document.getElementById('modalItemName').value = itemName;
+            document.getElementById('modalItemPrice').value = itemPrice;
+            modal.style.display = "flex";
+        }
+
+        function closeOrderModal() {
+            modal.style.display = "none";
+        }
+
+        function handleOrderSubmit(event) {
+            event.preventDefault();
+            const item = document.getElementById('modalItemName').value;
+            const qty = document.getElementById('quantity').value;
+            const name = document.getElementById('customerName').value;
+            
+            alert(`Thank you, ${name}! Your order for ${qty}x ${item} has been received. We look forward to serving you!`);
+            closeOrderModal();
+            document.getElementById('checkoutForm').reset();
+        }
+
+        // Close window when user clicks outside modal card area
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeOrderModal();
+            }
+        }
+    </script>
+</body>
+</html>
